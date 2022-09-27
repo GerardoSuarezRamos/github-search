@@ -1,17 +1,17 @@
-import React from 'react';
-import { Toaster } from 'react-hot-toast';
 import ReactDOM from 'react-dom/client';
-
+import React from 'react';
 import './index.css';
+import { Toaster } from 'react-hot-toast';
+import { RouterProvider } from 'react-router';
 
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import router from './router/Router';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
     <Toaster position="top-center" />
   </React.StrictMode>,
 );
