@@ -1,6 +1,6 @@
 import { GiHumanTarget } from 'react-icons/gi';
 import { useAtom } from 'jotai';
-import { PacmanLoader } from 'react-spinners';
+import { HashLoader } from 'react-spinners';
 
 import { isInitSearchAtom, pageAtom } from '../../store/store';
 import UseGithubUsers from '../../hooks/UseGithubUsers';
@@ -21,7 +21,7 @@ function List() {
     <>
       {isLoading && (
         <div className="h-full w-full m-auto inline-flex items-center justify-center my-24">
-          <PacmanLoader color="#D90429" size={100} />
+          <HashLoader color="#D90429" size={300} />
         </div>
       )}
       <div className="h-full w-full py-8 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 place-content-center items-center">
