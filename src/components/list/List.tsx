@@ -10,6 +10,7 @@ import ListItem from './ListItem';
 function List() {
   const [, setPage] = useAtom(pageAtom);
   const [, setIsInitSearch] = useAtom(isInitSearchAtom);
+
   const { items, isLoading } = UseGithubUsers();
 
   function handleClickLoadMore() {

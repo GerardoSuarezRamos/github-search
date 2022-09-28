@@ -4,7 +4,7 @@ import { useEffect, useCallback, useState } from 'react';
 import { getGithubUser } from '../api';
 import {
   searchParamAtom,
-  itemsAtom,
+  githubUsersAtom,
   totalResultsAtom,
   pageAtom,
   isInitSearchAtom,
@@ -12,7 +12,7 @@ import {
 
 const UseGithubUsers = () => {
   const [searchQuery] = useAtom(searchParamAtom);
-  const [items, setItems] = useAtom(itemsAtom);
+  const [items, setItems] = useAtom(githubUsersAtom);
   const [totalResults, setTotalResult] = useAtom(totalResultsAtom);
   const [page] = useAtom(pageAtom);
   const [isInitSearch, setIsInitSearch] = useAtom(isInitSearchAtom);
