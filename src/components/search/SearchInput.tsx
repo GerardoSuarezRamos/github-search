@@ -1,16 +1,14 @@
 import { ChangeEvent } from 'react';
-import { toast } from 'react-hot-toast';
 import { IoLogoGithub } from 'react-icons/io5';
 import { FcBusinessman } from 'react-icons/fc';
 import { useAtom } from 'jotai';
 
-import { getGithubUser } from '../../api';
-import { itemsAtom, searchParam, totalResultsAtom } from '../../store/store';
+import { searchParam } from '../../store/store';
+import UseGithubUsers from '../../hooks/UseGithubUsers';
 
 function SearchInput() {
-  const [searchQuery, setSearchQuery] = useAtom(searchParam);
-  const [, setItems] = useAtom(itemsAtom);
-  const [totalResults, setTotalResult] = useAtom(totalResultsAtom);
+  const [, setSearchQuery] = useAtom(searchParam);
+  const { items, totalResults } = UseGithubUsers();
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
@@ -18,23 +16,12 @@ function SearchInput() {
     setSearchQuery(value);
   }
 
-  async function handleClickSearch() {
-    try {
-      if (searchQuery.length <= 0) {
-        toast.error('Aun no has ingresado ninguna busqueda');
-      }
-
-      const response = await getGithubUser(searchQuery, '1');
-
-      setItems(response?.items);
-      setTotalResult(response?.total_count);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center space-y-4">
+    <div
+      className={`${
+        items === undefined && 'h-screen'
+      } w-screen flex flex-col items-center justify-center space-y-4 transition-all duration-700`}
+    >
       <h4 className="text-xl font-bold inline-flex gap-4">
         <IoLogoGithub className="text-3xl md:text-6xl" />
         <span className="self-end md:text-3xl text-xl">Github Search Engine</span>
@@ -48,31 +35,10 @@ function SearchInput() {
           type="text"
           onChange={handleChangeInput}
         />
-        <button
-          className="relative right-3 p-2.5 text-sm font-medium text-white shadow-zinc-500 bg-[#8D99AE] rounded-r-lg "
-          type="submit"
-          onClick={handleClickSearch}
-        >
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-            />
-          </svg>
-        </button>
       </div>
       <div className="inline-flex">
         <span className="text-sm font-medium text-end self-end">
-          Se han encontrado: {totalResults} resultados
+          Se han encontrado: {totalResults || '0'} resultados
         </span>
         <FcBusinessman className="text-2xl" />
       </div>
