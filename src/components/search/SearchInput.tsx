@@ -1,13 +1,15 @@
 import { ChangeEvent } from 'react';
 import { IoLogoGithub } from 'react-icons/io5';
-import { FcBusinessman } from 'react-icons/fc';
+import { FcBusinessman, FcSearch } from 'react-icons/fc';
 import { useAtom } from 'jotai';
 
-import { searchParam } from '../../store/store';
+import { isInitSearchAtom, searchParamAtom } from '../../store/store';
 import UseGithubUsers from '../../hooks/UseGithubUsers';
 
 function SearchInput() {
-  const [, setSearchQuery] = useAtom(searchParam);
+  const [, setSearchQuery] = useAtom(searchParamAtom);
+  const [, setIsInitSearch] = useAtom(isInitSearchAtom);
+
   const { items, totalResults } = UseGithubUsers();
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
@@ -15,13 +17,16 @@ function SearchInput() {
 
     setSearchQuery(value);
   }
-  console.log(items);
+
+  function handleClickSearch() {
+    setIsInitSearch(true);
+  }
 
   return (
     <div
       className={`${
         (items === undefined || items.length === 0) && 'h-screen'
-      } w-screen flex flex-col items-center justify-center space-y-4 transition-all duration-700`}
+      } w-screen flex flex-col items-center justify-center space-y-4 transition-all duration-700 pt-4`}
     >
       <h4 className="text-xl font-bold inline-flex gap-4">
         <IoLogoGithub className="text-3xl md:text-6xl" />
@@ -36,6 +41,12 @@ function SearchInput() {
           type="text"
           onChange={handleChangeInput}
         />
+        <button
+          className="relative right-2 bg-[#8D99AE] py-3 px-2 rounded-r-xl"
+          onClick={handleClickSearch}
+        >
+          <FcSearch />
+        </button>
       </div>
       <div className="inline-flex">
         <span className="text-sm font-medium text-end self-end">

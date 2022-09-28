@@ -2,13 +2,20 @@ import { useAtom } from 'jotai';
 import { useEffect, useCallback, useState } from 'react';
 
 import { getGithubUser } from '../api';
-import { searchParam, itemsAtom, totalResultsAtom, pageAtom } from '../store/store';
+import {
+  searchParamAtom,
+  itemsAtom,
+  totalResultsAtom,
+  pageAtom,
+  isInitSearchAtom,
+} from '../store/store';
 
 const UseGithubUsers = () => {
-  const [searchQuery] = useAtom(searchParam);
+  const [searchQuery] = useAtom(searchParamAtom);
   const [items, setItems] = useAtom(itemsAtom);
   const [totalResults, setTotalResult] = useAtom(totalResultsAtom);
   const [page] = useAtom(pageAtom);
+  const [isInitSearch, setIsInitSearch] = useAtom(isInitSearchAtom);
   const [isLoading, setIsloading] = useState<boolean>(false);
 
   const searchUsers = useCallback(
@@ -22,16 +29,19 @@ const UseGithubUsers = () => {
         setItems(response?.items);
         setTotalResult(response?.total_count);
         setIsloading(false);
+        setIsInitSearch(false);
       } catch (e) {
         console.log(e);
       }
     },
-    [searchQuery, setItems, setTotalResult, page],
+    [searchQuery, page, setItems, setIsInitSearch, setTotalResult],
   );
 
   useEffect(() => {
-    searchUsers();
-  }, [searchUsers]);
+    if (isInitSearch) {
+      searchUsers();
+    }
+  }, [isInitSearch, searchUsers]);
 
   return {
     items,
