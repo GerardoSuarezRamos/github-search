@@ -35,7 +35,7 @@ function ListItem({ user }: Props) {
           </Link>
           <a
             className="inline-flex items-center gap-2 py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 "
-            href={user.url}
+            href={user.html_url}
             rel="noopener noreferrer"
             target="_blank"
           >
