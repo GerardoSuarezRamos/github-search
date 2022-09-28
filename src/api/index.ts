@@ -1,5 +1,6 @@
 import toast from 'react-hot-toast';
 
+import { GithubOrganization } from '../models/githubOrganization.model';
 import GithubRepository from '../models/githubRepo.model';
 import GithubUser from '../models/githubUser.model';
 
@@ -49,4 +50,23 @@ const getRepoUsers = async (urlRepos: string): Promise<GithubRepository[] | unde
   }
 };
 
-export { getGithubUser, getRepoUsers };
+const getOrganizationsUsers = async (
+  urlOrganizations: string,
+): Promise<GithubOrganization[] | undefined> => {
+  try {
+    const response = await fetch(`${urlOrganizations}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_AUTH_TOKEN}`,
+      },
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    toast.error('Oops! parece que ha ocurrido un error');
+  }
+};
+
+export { getGithubUser, getRepoUsers, getOrganizationsUsers };
