@@ -1,5 +1,6 @@
 import toast from 'react-hot-toast';
 
+import GithubRepository from '../models/githubRepo.model';
 import GithubUser from '../models/githubUser.model';
 
 interface ResponseGithubSearchUsers {
@@ -31,4 +32,21 @@ const getGithubUser = async (
   }
 };
 
-export { getGithubUser };
+const getRepoUsers = async (urlRepos: string): Promise<GithubRepository[] | undefined> => {
+  try {
+    const response = await fetch(`${urlRepos}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/vnd.github+json',
+        Authorization: `Bearer ${process.env.REACT_APP_GITHUB_AUTH_TOKEN}`,
+      },
+    });
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    toast.error('Oops! parece que ha ocurrido un error');
+  }
+};
+
+export { getGithubUser, getRepoUsers };
