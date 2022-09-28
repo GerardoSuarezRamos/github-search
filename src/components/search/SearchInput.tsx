@@ -15,11 +15,12 @@ function SearchInput() {
 
     setSearchQuery(value);
   }
+  console.log(items);
 
   return (
     <div
       className={`${
-        items === undefined && 'h-screen'
+        (items === undefined || items.length === 0) && 'h-screen'
       } w-screen flex flex-col items-center justify-center space-y-4 transition-all duration-700`}
     >
       <h4 className="text-xl font-bold inline-flex gap-4">
