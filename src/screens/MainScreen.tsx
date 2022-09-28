@@ -1,17 +1,11 @@
-import React from 'react';
-import useSWR from 'swr';
-
-import { getGithubUser } from '../api';
+import SearchInput from '../components/search/SearchInput';
 
 function MainScreen() {
-  const { data, isValidating } = useSWR(
-    'api/github',
-    async () => await getGithubUser('gerardo', '1'),
+  return (
+    <main className="min-h-screen min-w-screen">
+      <SearchInput />
+    </main>
   );
-
-  console.log(data, isValidating);
-
-  return <div style={{ fontSize: '2rem' }}>mainScreen</div>;
 }
 
 export default MainScreen;

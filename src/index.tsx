@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    <Toaster position="top-center" />
+    <Toaster position="bottom-right" />
   </React.StrictMode>,
 );
 
