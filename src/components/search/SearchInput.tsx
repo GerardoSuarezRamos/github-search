@@ -1,13 +1,16 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, SetStateAction, Dispatch } from 'react';
 import { toast } from 'react-hot-toast';
 import { IoLogoGithub } from 'react-icons/io5';
 
 import { getGithubUser } from '../../api';
 import GithubUser from '../../models/githubUser.model';
 
-function SearchInput() {
+interface Props {
+  getterItems: Dispatch<SetStateAction<GithubUser[] | undefined>>;
+}
+
+function SearchInput({ getterItems }: Props) {
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [items, setItems] = useState<GithubUser[] | undefined>(undefined);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
@@ -20,9 +23,10 @@ function SearchInput() {
       if (searchQuery.length <= 0) {
         toast.error('Aun no has ingresado ninguna busqueda');
       }
+
       const response = await getGithubUser(searchQuery, '1');
 
-      setItems(response?.items);
+      getterItems(response?.items);
     } catch (e) {
       console.log(e);
     }
@@ -44,7 +48,7 @@ function SearchInput() {
           onChange={handleChangeInput}
         />
         <button
-          className="relative right-3 p-2.5 text-sm font-medium text-white shadow-zinc-500 bg-[#8D99AE] rounded-r-lg  focus:ring-4 focus:outline-none focus:ring-[#8D99AE]"
+          className="relative right-3 p-2.5 text-sm font-medium text-white shadow-zinc-500 bg-[#8D99AE] rounded-r-lg "
           type="submit"
           onClick={handleClickSearch}
         >
@@ -65,6 +69,7 @@ function SearchInput() {
           </svg>
         </button>
       </div>
+      <span className="text-sm font-medium text-end">Se han encontrado: 1200 resultados</span>
     </div>
   );
 }

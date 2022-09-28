@@ -14,7 +14,7 @@ const getGithubUser = async (
 ): Promise<ResponseGithubSearchUsers | undefined> => {
   try {
     const response = await fetch(
-      `${process.env.REACT_APP_BASE_URL}/search/users?q=${query}&per_page=10&page=${page}`,
+      `${process.env.REACT_APP_BASE_URL}/search/users?q=${query}&per_page=50&page=${page}`,
       {
         method: 'GET',
         headers: {
