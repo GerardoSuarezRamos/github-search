@@ -1,16 +1,16 @@
-import { useState, ChangeEvent, SetStateAction, Dispatch } from 'react';
+import { ChangeEvent } from 'react';
 import { toast } from 'react-hot-toast';
 import { IoLogoGithub } from 'react-icons/io5';
+import { FcBusinessman } from 'react-icons/fc';
+import { useAtom } from 'jotai';
 
 import { getGithubUser } from '../../api';
-import GithubUser from '../../models/githubUser.model';
+import { itemsAtom, searchParam, totalResultsAtom } from '../../store/store';
 
-interface Props {
-  getterItems: Dispatch<SetStateAction<GithubUser[] | undefined>>;
-}
-
-function SearchInput({ getterItems }: Props) {
-  const [searchQuery, setSearchQuery] = useState<string>('');
+function SearchInput() {
+  const [searchQuery, setSearchQuery] = useAtom(searchParam);
+  const [, setItems] = useAtom(itemsAtom);
+  const [totalResults, setTotalResult] = useAtom(totalResultsAtom);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
     const { value } = event.target;
@@ -26,7 +26,8 @@ function SearchInput({ getterItems }: Props) {
 
       const response = await getGithubUser(searchQuery, '1');
 
-      getterItems(response?.items);
+      setItems(response?.items);
+      setTotalResult(response?.total_count);
     } catch (e) {
       console.log(e);
     }
@@ -44,7 +45,7 @@ function SearchInput({ getterItems }: Props) {
           className="p-2 rounded-xl shadow-md shadow-zinc-500 outline-none font-bold text-zinc-600 w-11/12 md:w-3/5 "
           id="search-dropdown"
           placeholder="Search"
-          type="search"
+          type="text"
           onChange={handleChangeInput}
         />
         <button
@@ -69,7 +70,12 @@ function SearchInput({ getterItems }: Props) {
           </svg>
         </button>
       </div>
-      <span className="text-sm font-medium text-end">Se han encontrado: 1200 resultados</span>
+      <div className="inline-flex">
+        <span className="text-sm font-medium text-end self-end">
+          Se han encontrado: {totalResults} resultados
+        </span>
+        <FcBusinessman className="text-2xl" />
+      </div>
     </div>
   );
 }
