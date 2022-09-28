@@ -26,7 +26,7 @@ function SearchInput() {
     <div
       className={`${
         (items === undefined || items.length === 0) && 'h-screen'
-      } w-screen flex flex-col items-center justify-center space-y-4 transition-all duration-700 pt-4`}
+      } w-screen flex flex-col items-center justify-center space-y-4 transition-all duration-1000 pt-4`}
     >
       <h4 className="text-xl font-bold inline-flex gap-4">
         <IoLogoGithub className="text-3xl md:text-6xl" />

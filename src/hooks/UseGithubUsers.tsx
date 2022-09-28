@@ -28,8 +28,10 @@ const UseGithubUsers = () => {
 
         setItems(response?.items);
         setTotalResult(response?.total_count);
-        setIsloading(false);
         setIsInitSearch(false);
+        setTimeout(() => {
+          setIsloading(false);
+        }, 3000);
       } catch (e) {
         console.log(e);
       }
